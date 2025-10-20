@@ -4,6 +4,7 @@ import (
 	"web-api/entity"
 )
 
+// Store stores a user.
 func (uc *UserUsecase) Store(user *entity.User) error {
 
 	err := uc.userRepository.Store(user)

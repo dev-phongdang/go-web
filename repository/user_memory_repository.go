@@ -10,6 +10,7 @@ type UserMemoryRepository struct {
 	users map[uuid.UUID]*entity.User
 }
 
+// NewUserMemoryRepository creates a new in-memory user repository.
 func NewUserMemoryRepository() *UserMemoryRepository {
 	users := &UserMemoryRepository{
 		users: make(map[uuid.UUID]*entity.User),
@@ -24,6 +25,7 @@ func NewUserMemoryRepository() *UserMemoryRepository {
 	return users
 }
 
+// GetUserByID retrieves a user by their ID.
 func (r *UserMemoryRepository) GetUserByID(id uuid.UUID) (*entity.User, error) {
 	user, ok := r.users[id]
 	if !ok {
@@ -32,7 +34,7 @@ func (r *UserMemoryRepository) GetUserByID(id uuid.UUID) (*entity.User, error) {
 	return user, nil
 }
 
-// Store stores a user.
+// Store stores a user in the repository.
 func (r *UserMemoryRepository) Store(user *entity.User) error {
 	r.users[user.ID] = user
 	return nil

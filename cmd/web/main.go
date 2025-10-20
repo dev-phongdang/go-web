@@ -8,6 +8,7 @@ import (
 	user_uc "web-api/usecase/user"
 )
 
+// main is the entry point of the application.
 func main() {
 	userRepo := user_repository.NewUserMemoryRepository()
 
