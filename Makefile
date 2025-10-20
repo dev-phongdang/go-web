@@ -1,12 +1,14 @@
 BINARY_NAME=web-api
 
+.DEFAULT_GOAL := run
+
 .PHONY: build run clean help
 
 build:
 	@echo "Building the application..."
 	@go build -o bin/$(BINARY_NAME) cmd/web/main.go
 
-run:
+run: build
 	@echo "Starting the application..."
 	@./bin/$(BINARY_NAME)
 
