@@ -2,6 +2,7 @@ package health
 
 import (
 	"net/http"
+	"web-api/delivery/http/response"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -11,7 +12,7 @@ func NewRouter() *chi.Mux {
 
 	r := chi.NewRouter()
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("OK"))
+		response.Success(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
 
 	return r

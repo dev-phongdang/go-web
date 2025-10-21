@@ -1,8 +1,9 @@
 package user
 
 import (
-	"encoding/json"
+	"errors"
 	"net/http"
+	"web-api/delivery/http/response"
 	"web-api/usecase/user"
 
 	"github.com/go-chi/chi/v5"
@@ -25,19 +26,23 @@ func (h *UserHandler) GetUserByID(w http.ResponseWriter, r *http.Request) {
 	idStr := chi.URLParam(r, "id")
 	id, err := uuid.Parse(idStr)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		response.Error(w, http.StatusBadRequest, err)
 		return
 	}
 	u, err := h.uc.GetUserByID(id)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		response.Error(w, http.StatusInternalServerError, err)
 		return
 	}
 	if u == nil {
-		http.Error(w, "User not found", http.StatusNotFound)
+		response.Error(w, http.StatusNotFound, errors.New("user not found"))
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(u)
+	userDTO := UserResponse{
+		ID:    u.ID,
+		Name:  u.Name,
+		Email: u.Email,
+	}
+
+	response.Success(w, http.StatusOK, userDTO)
 }
